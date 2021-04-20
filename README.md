@@ -5,8 +5,11 @@ For scenecontrol to even work at all, you need to create a folder named "Sceneco
 
 Let's first examine the syntax of a scenecontrol command:
 
+```lua
     #aff file:
     scenecontrol(timing, scenecontrolType, parameter0, parameter1, parameter2, ...);
+```
+
 All parameters must be float (for now. Ability to have string as a parameter will come in the next version). What the parameters mean and what the command do will be determined by scenecontrolType, therefore we need a way to define the types.
 
 This is where Lua comes in. For each scenecontrol type, Arcade will call the .lua file with the same name as that type (e.g: the type "redline" will correspond to the file "redline.lua") in the Scenecontrol folder.
