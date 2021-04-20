@@ -1,6 +1,3 @@
-# ArcadeScenecontrol
-Tutorial on how to use Lua scripted scenecontrol within ArcadeZero
-
 # Getting started
 We will first explore how Arcade0 scenecontrol works in general and start writing a simple script.
 
@@ -23,38 +20,49 @@ Let's try to make something simple first to get the hang of things. We will impo
 ## Example 1: Moving image
 Our scenecontrol command will look like this
 
+```lua
     #aff file:
     scenecontrol(timing, moveimage, newXposition, newYposition, newZposition);
+```
    
 Each time the command is called, the image will move from its previous position to the new position defined in the command. Because the type is "moveimage" we need to create a file called "moveimage.lua" within the folder "Scenecontrol".
  For the function to work you must to define a function called onAffCommand. This will be called exactly once for each command as the name suggest.
 
-
+```lua
     function onAffCommand(timing, parameter0, parameter1, parameter2...)
     end
+```
+
 The timing and parameter in each scenecontrol command will be passed into here for you to use in your function, although we don't actually need it right now. Still let's give the parameters meaningful names. Within moveimage.lua, write:
 
+```lua
     --moveimage.lua
     function onAffCommand(timing, newXposition, newYposition, newZposition)
+```
    
-  What do you need to do within the file? First of all you need to get the object you actually want to manipulate. Here we want to manipulate an image (or in another name, sprite), but we don't have any image in our scene. So let's try creating one
+What do you need to do within the file? First of all you need to get the object you actually want to manipulate. Here we want to manipulate an image (or in another name, sprite), but we don't have any image in our scene. So let's try creating one
   
-
+```lua
     --moveimage.lua
     function onAffCommand(timing, newXposition, newYposition, newZposition)
 	    Scene.createSprite("image", "image.png")
 	end
+```
 
 Feel free to place whatever image you like in to the folder Scenecontrol (and also choose whatever image name you like instead of image.png). Alright, let's write a command into the .aff and see how it goes
 
+```lua
     #aff file
     AudioOffset:0
     -
     timing(0,100.00,4.00);
     scenecontrol(0, moveimage, 69, 420, 1337);
+```
+
 Now load the chart and you should see the image appearing in the scene. Great!
 Let's try adding more command.
 
+```lua
     #aff file
     AudioOffset:0
     -
@@ -62,30 +70,37 @@ Let's try adding more command.
     scenecontrol(0, moveimage, 69, 420, 1337);
     scenecontrol(1000, moveimage, 69, 420, 1337);
     scenecontrol(2000, moveimage, 69, 420, 1337);
+```
+
 Load the chart. Everything should seem okay until you check the log (click the log on the left). It should complain something about adding a key which already exist.
    
 The issue here is that every time we run the aff command, it will create a new Sprite named "image", and we can't have 2 objects of the same name. Ideally in this case we'd want to create the Sprite once, and then each command will interact with that Sprite. To do that you must create the Sprite in the file "init.lua" (placed in the Scenecontrol folder, of course), which will be run exactly once every time you load the chart:
    
-
+```lua
     --init.lua
     Scene.createSprite("image", "image.png")
+```
    
 Now we have a sprite named "image" in the scene. Back to moveimage.lua again now we just need to get that sprite. Use Scene.GetSprite to do it. We also need to store it somewhere so let's create assign it to a variable named "sprite"
 
+```lua
     --moveimage.lua
     function onAffCommand(timing, newXposition, newYposition, newZposition)
 	    sprite = Scene.getSprite("image")
     end
+```
    
 This variable will allow us to modify the image in whatever way we like. Now if you load the chart and check the log no error should appear.
    
 Having it sit in that spot is kind of boring, so let's move it somewhere. To move the sprite use the method SetTranslation(x, y, z)
 
+```lua
     --moveimage.lua
     function onAffCommand(timing, newXposition, newYposition, newZposition)
 	    sprite = Scene.getSprite("image")
 	    sprite.setTranslation(newXposition, newYposition, newZposition)
     end
+```
 
 Each aff command will pass its argument into this function, which we defined to just set the sprite's position to whatever that value is. Because the four function are executed one after each other you should find that the image will sit at whatever coordinate you wrote in the last command in the .aff file. Try changing it around and check.
 
@@ -99,7 +114,9 @@ What this mean is that we need a way to tell at any moment which scenecontrol ev
 
 Syntax:
 
+```lua
     register(object, timing, duration, function_to_run)
+```
 What this does, is for object, the portion of time between timing and timing+duration will be given to function_to_run,
 
 Please note that if the registration overlap, say an event register at time 1000 and duration 1000, and another evet register at time 1500 and duration 1000, then the event that starts earlier will be cut short to make way for the new one, in this case time 1000-1500 will be given to event 1 and 1500-2500 will be given to event 2.
@@ -111,28 +128,36 @@ Details of event selecting algorithm will come in a later section. Let's return 
 ## Back to moveimage
 Okay, so now we know we need to register the sprite to a function. Let's define our function first. It will also be passed the parameter in the scenecontrol command, however the first parameter (timing) will not be the timing of the command but the current timing that the song is at. You can name the parameter itself whatever you want but I'd advise to keep it consistent. Same goes for function name, choose something that makes sense:
 
+```lua
     --moveimage.lua
     function MoveImage(charttiming, newXPosition, newYPosition, newZPosition)
     end
+```
  
 Now register it in onAffCommand by adding this to the function. Let's give a duration of 1 second.
 
+```lua
 	register(sprite, timing, 1000, "MoveImage")
+```
 
 The last "MoveImage" refers to the function name you chose earlier. If you named your function something else like function FooBar(timing, parameters, parameters,...) then you'd pass in "FooBar" into register.
 
 Our update function is doing nothing at the moment, so let's have it more the sprite around. Same as before we will use SetTranslation(x,y,z)
 
+```lua
     function MoveImage(charttiming, newXPosition, newYPosition, newZPosition)
 	    local x = (charttiming - BaseTiming) / 1000 * newXPosition
 	    local y = (charttiming - BaseTiming) / 1000 * newYPosition
 	    local z = (charttiming - BaseTiming) / 1000 * newZPosition
 	    sprite.setTranslation(x, y, z)
     end
+```
+
 Note the local keyword, this variable will not be saved and transferred into other functions which keep things fast. Try to use it whenever you can. Also note the variable "BaseTiming". This variable is automatically provided and can be used in any function, it refers to the timing value in the aff command.
 
 Let's look at our script as a whole now
 
+```lua
     function onAffCommand(timing, newXposition, newYposition, newZposition)
 	    sprite = Scene.getSprite("image")
 	    register(sprite, timing, 1000, "MoveImage")
@@ -144,6 +169,7 @@ Let's look at our script as a whole now
 	    local z = (charttiming - BaseTiming) / 1000 * newZPosition
 	    sprite.setTranslation(x, y, z)
     end
+```
 
 Load the chart and you should see things moving around. Nice!
 
@@ -151,45 +177,53 @@ Nah it kinda sucks though. For once it just keeps snapping back to the center an
 
 This job only needs to be run once so it makes sense we include it in onAffCommand. Use the GetTranslationAt(timing) to retrieve the position, then assign it to a variable
 
+```lua
     function onAffCommand(timing, newXposition, newYposition, newZposition)
 	    sprite = Scene.getSprite("image")
 	    Register(sprite, timing, 1000, "MoveImage")
 	    oldPos = sprite.getTranslationAt(timing - 1)
     end
+```
     
 oldPos holds 3 value x y z which you can access with oldPos.x, oldPos,y, oldPos.z respectively. Let's do just that:
  
-
+```lua
     function MoveImage(charttiming, newXPosition, newYPosition, newZPosition)
 	    local x = oldPos.x + (charttiming - BaseTiming) / 1000 * (newXPosition - oldPos.x)
 	    local y = oldPos.y + (charttiming - BaseTiming) / 1000 * (newYPosition - oldPos.y)
 	    local z = oldPos.z + (charttiming - BaseTiming) / 1000 * (newZPosition - oldPos.z)
 	    sprite.setTranslation(x, y, z)
     end
+```
+
 Now everything should work as intended, and the object will move from the old position to new within 1 second.
 
 You might be complaining about the ugly mess of math in there. Don't worry, you do not actually have to write this every single time you want to move something. I've prepared some functions that'll aid you in animating as well. Let's see what it is: the whole function above can be condensed to:
 
+```lua
     function MoveImage(charttiming, newX, newY, newZ)
 	    local percentage = (charttiming - BaseTiming) / 1000
 	    sprite.setTranslation(Ease.Linear(oldPos.x, newX, percentage), Ease.Linear(oldPos.y, newY, percentage), Ease.Linear(oldPos.z, newZ, percentage))
     end
+```
 
 If you're familiar with easing then this won't need explaining. But this is basically how you'd animate things. All ease function takes a lower bound, higher bound, and percentage. It will return a value inbetween the bounds based on the percentage you pass in (and the easing type). There will be a listing of all easing functions you can use as well.
 ~~(also I shortened the variable name because it got too long. You can do that as well)~~
 
 Our final script looks like this
 
+```lua
     function onAffCommand(timing, newXposition, newYposition, newZposition)
 	    sprite = Scene.getSprite("image")
 	    register(sprite, timing, 1000, "MoveImage")
 	    oldPos = sprite.getTranslationAt(timing - 1)
     end
-    
+
     function MoveImage(charttiming, newX, newY, newZ)
 	    local percentage = (charttiming - BaseTiming) / 1000
 	    sprite.setTranslation(Ease.Linear(oldPos.x, newX, percentage), Ease.Linear(oldPos.y, newY, percentage), Ease.Linear(oldPos.z, newZ, percentage))
     end
+```
 
 That concludes our first example! It might have been a lot to take in at first because there's quite a bit of fundamental concept, but if you got through this you're pretty much in the clear.
 
@@ -199,10 +233,13 @@ Solution I came up with is to append an index into the object's name, and you ca
 
 Let's use this technique to recreate the red line effect used in Arcahv. First get the red line image (in whatever way you want to, or just get a random image to practice). We'll define the type in redlines.lua, and here will be the aff command syntax:
 
+```lua
     scenecontrol(timing, redlines, duration);
+```
+
 It's not the exact syntax used in Arcahv but who cares. Anyway, in redlines.lua:
  
-
+ ```lua
     --redlines.lua
     function onAffCommand(timing, duration)
 	    redline = Scene.createSprite("redline", "redline.png")
@@ -216,19 +253,24 @@ It's not the exact syntax used in Arcahv but who cares. Anyway, in redlines.lua:
     
     function Show(timing, duration)
     end
+```
 
 Note how we only registered 1ms for each function. That's all we need in this case
 
 We haven't done anything to avoid the problem yet. Let's pass in the EventID now by modifying the createSprite line:
 
+```lua
     line = Scene.createSprite("redline"..EventID, "redline.png")
+```
+
 The ".." thing is string concatenation. Kind of weird but hey it's handy. Now every line will have an unique name.
 
 While we're at it let's also define Hide and Show. In this case there's two ways to do it: one by setting the transparency, the other by disabling the object.
 
+```lua
     --set color method:
     function Hide(timing, duration)
-	    redline.setColor(255,255,255,0)
+		redline.setColor(255,255,255,0)
 	end
 	
 	function Show(timing, duration)
@@ -242,11 +284,13 @@ While we're at it let's also define Hide and Show. In this case there's two ways
 	function Show(timing, duration)
 		redline.setActive(true)
 	end
+```
     
 I recommend the latter method since it's a bit more efficient. If you have a lot of objects then I'd really recommend disabling it when you don't need it
 
 Let's also randomize the position and also scale it up properly. We only need to do this once per sprite:
 
+```lua
     function onAffCommand(timing, duration)
 	    redline = Scene.createSprite("redline", "redline.png")
 	    redline.setScale(1000, 1, 1)
@@ -255,6 +299,7 @@ Let's also randomize the position and also scale it up properly. We only need to
 	    register(redline, timing, 1, "Show")
 	    register(redline, timing+duration, 1, "Hide")
     end
+```
 
 And that should be it!
 
@@ -263,12 +308,15 @@ Yes we can have other things than just images. For this example we define each a
 
 Syntax:
 
+```lua
     scenecontrol(timing, livechat);
+```
     
 Note that we can't pass in strings as argument yet as of this version.
 
 Guess how you'd create the text by the way
 
+```lua
     function onAffCommand(timing)
 	    text = Scene.createText("text"..EventID, "kusa", other parameters)
 	    y = math.random(250,450)
@@ -287,6 +335,7 @@ Guess how you'd create the text by the way
 		text.setActive(true)
 		text.setTranslation(Ease.Linear(-3000, 3000), y, 0)
 	end
+```
 
 Really the only thing new here is that we're using math.random and the CreateText function.
 
@@ -294,8 +343,11 @@ It's also worth discussing that we don't have to necessarily have it update righ
 
 Let's also make the string random
 
+```lua
     textList = {"kusa", "lol", "ww", "haha"}
     text = Scene.createText("text"..EventID, textList[math.random(1, #textList)], other parameters)
+```
+
 This is just lua stuff, you should check the lua tutorial if you want to find out more about these things. I'll note a few things though:
   
 
@@ -306,6 +358,7 @@ This is just lua stuff, you should check the lua tutorial if you want to find ou
 
 Here we'll see how setting object in a hierarchy can really save our day. Let's just copy paste over the file from the previous example and modify it to also include a nice superchat background
 
+```lua
     function onAffCommand(timing)
 	    text = Scene.createText("text"..EventID, "kusa", other parameters)
 	    y = math.random(250,450)
@@ -328,6 +381,7 @@ Here we'll see how setting object in a hierarchy can really save our day. Let's 
 		text.setActive(true)
 		text.setTranslation(Ease.Linear(-3000, 3000), y, 0)
 	end
+```
 
 By setting the parent of superchat to text we can skip updating superchat altogether. superchat will follow text's position, and disabling text also disable superchat.
 
@@ -337,8 +391,10 @@ Let's talk about layer name first. There's 3 names you can choose from: "Backgro
 
 Within each layer you can also choose which objects appear in front of another with layer order. Objects with higher layer order will appear in front. Let's apply this:
 
+```lua
     superchat.setLayerOrder(EventID*2)
     text.setLayerOrder(EventID*2+1)
+```
    
 We used event id to also make sure that newer event appear in front of older ones. If you want the object to appear on top of Track for example, just include superchat.setLayerName("Foreground") and text.setLayerName("Foreground") as well
 
@@ -374,9 +430,11 @@ If for some reason scenecontrol just completely doesn't show up in your chart, s
 
 Additionally, you can also log stuff within your script. Just return whatever you want to be logged
 
+```lua
 	function onAffCommand(timing, params0, params1):
 		return "Hello world"
 	end
+```
 
 If you try loading the chart then it'll log "Hello world" for each scenecontrol command in the aff.
 
@@ -412,8 +470,10 @@ Properties
 
 Example usage:
 
+```lua
 	xcoord = object.getTranslationAt(t).x --get translation return a value of type XYZ
 	object2.setTranslation(x, 0, 0)       --match the x position of the two object
+```
 
 
 #### RGBA
@@ -429,9 +489,11 @@ Properties
 
 Example usage:
 	
+```lua
 	sprite = Scene.getSprite("examplesprite")
 	color = sprite.getColorAt(t)              --this variable has type: RGBA
 	return color.r..color.g..color.b..color.a --log the component of color
+```
 
 
 #### HSVA
@@ -447,11 +509,13 @@ Properties
 
 Example usage:
 
+```lua
 	sprite = Scene.getSprite("examplesprite")
 	color = sprite.getColorAt(t)                -- type: RGBA
 	hsvcolor = Color.RGBAToHSVA(color)          -- convert RGBA to HSVA
 	hsvcolor.h = (hsvcolor.h + 180) % 360       -- invert the hue
 	sprite.setColor(Color.HSVAToRGBA(hsvcolor)) -- convert color back and set value
+```
 
 #### Ease
 A static class that provides numerous easing types to the scripter. You can see all the easing methods visually here: https://easings.net
@@ -495,9 +559,11 @@ Method names:
 
 Example usage:
 
+```lua
 	x = Ease.OutSine(-1000, 1000, (timing - BaseTiming) / duration)
 	y = Ease.OutBounce(-300, 300, (timing - BaseTiming) / duration)
 	object.setTranslation(x, y, 0)
+```
 
 #### Color
 A static class that provide easy conversion between different 3 color type: HSVA, RGBA (see above) and hex string (e.g "#1f1e33ff")
@@ -519,9 +585,11 @@ Methods:
 
 Example usage
 
+```lua
 	hex = HSVAToHex(Ease.Linear(0, 360, timing), 1, 1)
 	text = "<color="..hex..">gaming moment</color>"
 	textObject.setText(text)
+```
 
 ### Scene
 A static class that allow scripter to create objects, and retrieve objects by name
