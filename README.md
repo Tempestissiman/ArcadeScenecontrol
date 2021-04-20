@@ -46,9 +46,9 @@ The timing and parameter in each scenecontrol command will be passed into here f
 What do you need to do within the file? First of all you need to get the object you actually want to manipulate. Here we want to manipulate an image (or in another name, sprite), but we don't have any image in our scene. So let's try creating one
   
 ```lua
-    --moveimage.lua
-    function onAffCommand(timing, newXposition, newYposition, newZposition)
-	    Scene.createSprite("image", "image.png")
+    	--moveimage.lua
+    	function onAffCommand(timing, newXposition, newYposition, newZposition)
+		Scene.createSprite("image", "image.png")
 	end
 ```
 
@@ -271,8 +271,8 @@ The ".." thing is string concatenation. Kind of weird but hey it's handy. Now ev
 While we're at it let's also define Hide and Show. In this case there's two ways to do it: one by setting the transparency, the other by disabling the object.
 
 ```lua
-    --set color method:
-    function Hide(timing, duration)
+    	--set color method:
+    	function Hide(timing, duration)
 		redline.setColor(255,255,255,0)
 	end
 	
@@ -326,7 +326,7 @@ Guess how you'd create the text by the way
 	    offsetUntilStart = math.random(0,500)
 	    duration = math.random(2500,3500)
 		
-		register(text, 0, 1, "Hide")
+	    register(text, 0, 1, "Hide")
 	    register(text, timing + offsetUntilStart, duration, "MoveAcross")
 	    register(text, timing + offsetUntilStart + duration, 1, "Hide")
     end
@@ -368,11 +368,11 @@ Here we'll see how setting object in a hierarchy can really save our day. Let's 
 	    offsetUntilStart = math.random(0,500)
 	    duration = math.random(2500,3500)
 		
-		superchat = Scene.createSprite("superchat"..EventID, "superchat.png")
-		superchat.setParent(text)
-		superchat.setTranslation( --tinker around with this-- )
+	    superchat = Scene.createSprite("superchat"..EventID, "superchat.png")
+	    superchat.setParent(text)
+	    superchat.setTranslation( --tinker around with this-- )
 		
-		register(text, 0, 1, "Hide")
+	    register(text, 0, 1, "Hide")
 	    register(text, timing + offsetUntilStart, duration, "MoveAcross")
 	    register(text, timing + offsetUntilStart + duration, 1, "Hide")
     end
