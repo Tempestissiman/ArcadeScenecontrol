@@ -1,3 +1,5 @@
+日本語版：https://hackmd.io/@Gq-K8NqYQ_aQFgcUurVHnw/rJ-I3i9Ud
+
 # Getting started
 We will first explore how Arcade0 scenecontrol works in general and start writing a simple script.
 
