@@ -407,8 +407,9 @@ We used event id to also make sure that newer event appear in front of older one
 ## Manipulating in game elements
 For example, you might want to hide the track, move the sky input line, dye the UI in pink, etc,...
 
-Well you'll be glad to hear that all of those are just the same as sprite so you don't need to learn anything new here, aside from the fact that you don't need to actually create anything to access it. Just use the Scene.getObject(name) method to get it. Here are the list of them:
+Well you'll be glad to hear that all of those are just the same as sprite so you don't need to learn anything new here, aside from the fact that you don't need to actually create anything to access it. Here are the list of them, along with how to obtain them:
 
+#### Scene.getSprite([name below]):
  - "Track"
  - "CriticalLine"
  - "DivideLine01"
@@ -419,8 +420,9 @@ Well you'll be glad to hear that all of those are just the same as sprite so you
  - "SkyInputLine"
  - "SkyInputLabel"
  - "Background"
- - "UIPause"
- - "UIInfo"
+
+#### Scene.getUIPause()
+#### Scene.getUIInfo()
  
 ## Wait is this phigros?
 You heard me right. You can rotate and move individual notes with this. It's really hard to work with though so I'll keep it short and leave it to the big brained to figure it out (which doesn't include me)
