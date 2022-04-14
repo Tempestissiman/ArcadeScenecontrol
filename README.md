@@ -533,36 +533,16 @@ All methods take in *start*, *end*, *percentage* as parameters, and output a num
 
 Method names:
  - Linear
- - InSine
- - OutSine
- - InOutSine
- - InQuad
- - OutQuad
- - InOutQuad
- - InCubic
- - OutCubic
- - InOutCubic
- - InQuart
- - OutQuart
- - InOutQuart
- - InQuit
- - OutQuit
- - InOutQuit
- - InExpo
- - OutExpo
- - InOutExpo
- - InCirc
- - OutCirc
- - InOutCirc
- - InBack
- - OutBack
- - InOutBack
- - InElastic
- - OutElastic
- - InOutElastic
- - InBounce
- - OutBounce
- - InOutBounce
+ - InSine, OutSine, InOutSine -- Sinusoidal
+ - InQuad, OutQuad, InOutQuad -- Quadratic
+ - InCubic, OutCubic, InOutCubic
+ - InQuart, OutQuart, InOutQuart -- Quartic
+ - InQuint, OutQuint, InOutQuint -- Quintic
+ - InExpo, OutExpo, InOutExpo -- Exponential
+ - InCirc, OutCirc, InOutCirc -- Circular
+ - InBack, OutBack, InOutBack
+ - InElastic, OutElastic, InOutElastic
+ - InBounce, OutBounce, InOutBounce
 
 Example usage:
 
