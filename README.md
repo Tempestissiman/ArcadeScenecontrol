@@ -8,7 +8,7 @@ This document contains information necessary for both newcomers and those who ha
 
 As usual the API requires knowledge of the scripting language Lua, and so this guide will assume some familiarity with it. If you're new or would like a refresher on the language, please refer to the official tutorial at: https://www.lua.org/pil/contents.html
 
-####### Contribution: You can help translate this document to other languages!
+###### Contribution: You can help translate this document to other languages!
 
 # What's new?
 The new API was made to address these issues with the old one:
