@@ -1,7 +1,9 @@
 # ArcadeScenecontrol
 Tutorial and guide on the new Scenecontrol API for ArcadeZero v4
+
 Document for the old API: https://github.com/Tempestissiman/ArcadeScenecontrol/tree/a30c13efc25b0a4a6e32a820b3dbb5c363564d71
-日本語版: Coming soon
+
+日本語版: (Coming soon)
 
 # Introduction
 This document contains information necessary for both newcomers and those who have experience working with the old Scenecontrol API.
@@ -250,9 +252,9 @@ Here's the list of all the easings supported. Each easing type can be written mu
 > For fun! You can also turn extrapolation of a channel on. Extrapolation basically continues the curve beyond the keyframes you have added. I don't know why one would use this but it's here anyway
 ```lua
 local channel = Channel.keyframe()
-					   .setDefaultEasing('so')
-					   .setIntroExtrapolation(true)
-					   .setOuttroExtrapolation(true)
+			.setDefaultEasing('so')
+			.setIntroExtrapolation(true)
+			.setOuttroExtrapolation(true)
 ```
 
 Now that you have mastered the basics of controllers and channels, changing any property to behave anyway you like is possible now! But the API provides much more useful functionalities that will simplify the process for you. We'll return to them at the Level 2 of Controllers and Channels.
