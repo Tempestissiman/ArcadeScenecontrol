@@ -1,6 +1,8 @@
 # ArcadeScenecontrol
 Tutorial on the new Scenecontrol API for ArcadeZero v4
 
+[Reference documentation](https://github.com/Tempestissiman/ArcadeScenecontrol/wiki)
+
 [Document for the old API](https://github.com/Tempestissiman/ArcadeScenecontrol/tree/a30c13efc25b0a4a6e32a820b3dbb5c363564d71)
 
 日本語版 (Coming soon)
