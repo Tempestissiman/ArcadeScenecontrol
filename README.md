@@ -1,14 +1,15 @@
 # ArcadeScenecontrol
-Tutorial and guide on the new Scenecontrol API for ArcadeZero v4
+Tutorial on the new Scenecontrol API for ArcadeZero v4
 
-Document for the old API: https://github.com/Tempestissiman/ArcadeScenecontrol/tree/a30c13efc25b0a4a6e32a820b3dbb5c363564d71
+[Document for the old API](https://github.com/Tempestissiman/ArcadeScenecontrol/tree/a30c13efc25b0a4a6e32a820b3dbb5c363564d71)
 
-日本語版: (Coming soon)
+日本語版 (Coming soon)
 
 # Introduction
-This document contains information necessary for both newcomers and those who have experience working with the old Scenecontrol API.
+This document is a tutorial designed to guide for both newcomers and those who have experience working with the old Scenecontrol API to get started with the new API.
+This will not cover all the features available in the API, but will prepare you with enough knowledge to explore the rest on your own. Please check the [Reference documentation](https://github.com/Tempestissiman/ArcadeScenecontrol/wiki) for more information.
 
-As usual the API requires knowledge of the scripting language Lua, and so this guide will assume some familiarity with it. If you're new or would like a refresher on the language, please refer to the official tutorial at: https://www.lua.org/pil/contents.html
+As usual, scripting requires knowledge of the language Lua, and so this guide will assume some familiarity with it. If you're new or would like a refresher on the language, please refer to the [official tutorial](https://www.lua.org/pil/contents.html)
 
 ###### Contribution: You can help translate this document to other languages!
 
@@ -770,6 +771,6 @@ These are all small details that you should know but aren't enough to warrant an
 # What's next?
 Congratulations on finishing this tutorial on the new scenecontrol API!
 
-You should now be aimed with enough knowledge to use the reference document effectively, which will details out everything about the API for you to reference while writing your own scripts. Please check it out at: (coming soon)
+You should now be aimed with enough knowledge to use the reference document effectively, which will details out everything about the API for you to reference while writing your own scripts. [Please check it out here](https://github.com/Tempestissiman/ArcadeScenecontrol/wiki)
 
 Have fun scripting!
