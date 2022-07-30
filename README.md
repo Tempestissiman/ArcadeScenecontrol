@@ -5,7 +5,7 @@ Tutorial on the new Scenecontrol API for ArcadeZero v4
 
 [Document for the old API](https://github.com/Tempestissiman/ArcadeScenecontrol/tree/a30c13efc25b0a4a6e32a820b3dbb5c363564d71)
 
-日本語版 (Coming soon)
+[日本語版](https://hackmd.io/XW5foJnpQI6JMLQ-igqs2g)
 
 # Introduction
 This document is a tutorial designed to guide for both newcomers and those who have experience working with the old Scenecontrol API to get started with the new API.
